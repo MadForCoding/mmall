@@ -18,6 +18,8 @@
     <org.springframework.version>5.2.7.RELEASE</org.springframework.version>
     <org.mybatis.version>3.5.5</org.mybatis.version>
     <org.mybatis.spring.version>2.0.5</org.mybatis.spring.version>
+    <org.jackson.version>2.11.0</org.jackson.version>
+    <org.tomcat.version>9.0.36</org.tomcat.version>
   </properties>
 
   <dependencies>
@@ -25,7 +27,7 @@
     <dependency>
       <groupId>org.apache.tomcat</groupId>
       <artifactId>tomcat-servlet-api</artifactId>
-      <version>8.5.39</version>
+      <version>${org.tomcat.version}</version>
     </dependency>
 
     <dependency>
@@ -66,6 +68,12 @@
     </dependency>
 
     <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjrt</artifactId>
+      <version>1.9.5</version>
+    </dependency>
+
+    <dependency>
       <groupId>org.mybatis</groupId>
       <artifactId>mybatis-spring</artifactId>
       <version>${org.mybatis.spring.version}</version>
@@ -76,24 +84,31 @@
       <version>${org.mybatis.version}</version>
     </dependency>
 
-    <dependency>
-      <groupId>org.aspectj</groupId>
-      <artifactId>aspectjrt</artifactId>
-      <version>1.9.5</version>
-    </dependency>
 
+
+    <!-- jackson -->
     <dependency>
-      <groupId>org.codehaus.jackson</groupId>
-      <artifactId>jackson-mapper-asl</artifactId>
-      <version>1.9.13</version>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>${org.jackson.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>${org.jackson.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${org.jackson.version}</version>
     </dependency>
 
 
     <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-dbcp2 -->
     <dependency>
-      <groupId>commons-dbcp</groupId>
-      <artifactId>commons-dbcp</artifactId>
-      <version>1.4</version>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-dbcp2</artifactId>
+      <version>2.7.0</version>
       <!--<scope>runtime</scope>-->
     </dependency>
 
@@ -183,14 +198,12 @@
     </dependency>
 
 
-
-
-    <!-- mybatis pager -->
+    <!-- mybatis paging -->
 
     <dependency>
       <groupId>com.github.pagehelper</groupId>
       <artifactId>pagehelper</artifactId>
-      <version>5.1.10</version>
+      <version>5.1.11</version>
     </dependency>
 
     <dependency>
@@ -249,12 +262,7 @@
       <version>3.1.0</version>
     </dependency>
 
-    <!-- mybatis paging -->
-    <dependency>
-      <groupId>com.github.pagehelper</groupId>
-      <artifactId>pagehelper</artifactId>
-      <version>5.0.0</version>
-    </dependency>
+
   </dependencies>
 
 

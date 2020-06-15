@@ -11,8 +11,22 @@
 
     <context:component-scan base-package="com.mmall" annotation-config="true"/>
 
+    <!-- Deprecated!!!!!!!!!!!! -->
+<!--    <bean id="propertyConfigurer"-->
+<!--          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">-->
+<!--        <property name="order" value="2"/>-->
+<!--        <property name="ignoreUnresolvablePlaceholders" value="true"/>-->
+<!--        <property name="locations">-->
+<!--            <list>-->
+<!--                <value>classpath:datasource.properties</value>-->
+<!--            </list>-->
+<!--        </property>-->
+<!--        <property name="fileEncoding" value="utf-8"/>-->
+<!--    </bean>-->
+
+
     <bean id="propertyConfigurer"
-          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+          class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
         <property name="order" value="2"/>
         <property name="ignoreUnresolvablePlaceholders" value="true"/>
         <property name="locations">
@@ -24,21 +38,21 @@
     </bean>
 
 
-    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="${db.driverClassName}"/>
         <property name="url" value="${db.url}"/>
         <property name="username" value="${db.username}"/>
         <property name="password" value="${db.password}"/>
         <!-- 连接池启动时的初始值 -->
         <property name="initialSize" value="${db.initialSize}"/>
-        <!-- 连接池的最大值 -->
-        <property name="maxActive" value="${db.maxActive}"/>
+        <!-- 连接池的最大值 maxActive -> maxTotal -->
+        <property name="maxTotal" value="${db.maxTotal}"/>
         <!-- 最大空闲值.当经过一个高峰时间后，连接池可以慢慢将已经用不到的连接慢慢释放一部分，一直减少到maxIdle为止 -->
         <property name="maxIdle" value="${db.maxIdle}"/>
         <!-- 最小空闲值.当空闲的连接数少于阀值时，连接池就会预申请去一些连接，以免洪峰来时来不及申请 -->
         <property name="minIdle" value="${db.minIdle}"/>
-        <!-- 最大建立连接等待时间。如果超过此时间将接到异常。设为－1表示无限制 -->
-        <property name="maxWait" value="${db.maxWait}"/>
+        <!-- 最大建立连接等待时间。如果超过此时间将接到异常。设为－1表示无限制  maxWait -> maxWaitMillis -->
+        <property name="maxWaitMillis" value="${db.maxWaitMillis}"/>
         <!--#给出一条简单的sql语句进行验证 -->
         <!--<property name="validationQuery" value="select getdate()" />-->
         <property name="defaultAutoCommit" value="${db.defaultAutoCommit}"/>
@@ -59,18 +73,20 @@
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        <property name="mapperLocations" value="classpath*:mappers/*Mapper.xml"></property>
+        <property name="mapperLocations" value="classpath*:mappers/*Mapper.xml" />
 
         <!-- 分页插件 -->
         <property name="plugins">
             <array>
                 <!-- old method: PageHelper -->
                 <bean class="com.github.pagehelper.PageInterceptor">
+                    <!-- 新版本的分页插件无需注入方言。 若注入会报错
                     <property name="properties">
                         <value>
                             dialect=mysql
                         </value>
                     </property>
+                    -->
                 </bean>
             </array>
         </property>
