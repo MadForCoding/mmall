@@ -176,4 +176,42 @@
       update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="getList" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from mmall_product
+    order by id asc
+  </select>
+
+  <select id="selectByNameAndId" parameterType="map" resultMap="BaseResultMap" >
+    select <include refid="Base_Column_List"/>
+    from mmall_product
+    <where>
+      <!-- where标签下，会省略第一个if标签里面的and/or。-->
+      <if test="productName != null">
+        and name like #{productName}
+      </if>
+
+      <if test="productId != null">
+        and id=#{productId}
+      </if>
+    </where>
+  </select>
+  
+  <select id="selectByNameAndCategoryIds" parameterType="map" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from mmall_product
+    <where>
+      status=1
+      <if test="productName != null">
+        and name like #{productName}
+      </if>
+      <if test="categoryIdList != null">
+        and category_id in
+        <foreach collection="categoryIdList" item="item" index="index" open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+    </where>
+  </select>
 </mapper>
